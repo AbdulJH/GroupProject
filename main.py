@@ -54,7 +54,7 @@ def valid_login(username, password):
 
 
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for, redirect
 
 app = Flask(__name__)
 
@@ -67,7 +67,7 @@ def register():
             return render_template("register.html", username_taken=True)
         insert_user(username, password)
         print(f"Username: {username}, Password: {password}")
-        return render_template("register.html")
+        return redirect(url_for("login"))
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
