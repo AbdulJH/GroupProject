@@ -73,13 +73,12 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form["login-username"]
-        password = request.form["login-password"]
+        username = request.form["username"]
+        password = request.form["password"]
         if not valid_login(username, password):
             return render_template("login.html", login_failed=True)
         print("Login Successful")
         return "Login successful!"
-
     return render_template("login.html")
 
 

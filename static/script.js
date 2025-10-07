@@ -1,6 +1,6 @@
 const form = document.getElementById("my-form");
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
+const usernameInput = document.getElementById("register-username");
+const passwordInput = document.getElementById("register-password");
 const confirmPasswordInput = document.getElementById("confirm-password");
 
 form.addEventListener("submit", (e) => {
