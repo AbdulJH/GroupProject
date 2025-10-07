@@ -23,9 +23,12 @@ def login():
         if not valid_login(username, password):
             return render_template("login.html", login_failed=True)
         print("Login Successful")
-        return "Login successful!"
+        return redirect(url_for("pdf2quizhome"))
     return render_template("login.html")
 
+@app.route("/pdf2quizhome", methods=["GET"])
+def pdf2quizhome():
+    return render_template("pdf2quizhome.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
