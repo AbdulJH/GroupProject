@@ -15,6 +15,29 @@ def insert_user(username, password):
     cur.close()
     conn.close()
 
+# create a method username_taken to check dataase to see if username is already taken. if it is return true if its not return false 
+# then in  register method we do if !username_taken(username):
+# insert_user() else we return usernaem taken message or popup
+
+
+
+def username_taken(username):
+    conn = psycopg2.connect(
+        dbname="ics499db",
+        user="postgres",
+        password="",
+        host="localhost"
+    )
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT * FROM users WHERE username = %s",
+        (username,)
+    )
+    result = cur.fetchone()
+    cur.close()
+    conn.close()
+    return result is not None
+
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
