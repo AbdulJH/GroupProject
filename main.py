@@ -11,7 +11,6 @@ def register():
         if check_user(username):
             return render_template("register.html", username_taken=True)
         insert_user(username, password)
-        print(f"Username: {username}, Password: {password}")
         return redirect(url_for("login"))
     return render_template("register.html")
 
@@ -22,7 +21,6 @@ def login():
         password = request.form["password"]
         if not valid_login(username, password):
             return render_template("login.html", login_failed=True)
-        print("Login Successful")
         return redirect(url_for("pdf2quizhome"))
     return render_template("login.html")
 
