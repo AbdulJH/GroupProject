@@ -6,11 +6,9 @@ const confirmPasswordInput = document.getElementById("confirm-password");
 form.addEventListener("submit", (e) => {
   if (passwordInput.value != confirmPasswordInput.value) {
     e.preventDefault();
-    // i can change this to an html pop up later or clear the passwords or both
+    // might change alert to pop up later or nothing at all
     alert("Passwords do not match!");
     passwordInput.value = "";
     confirmPasswordInput.value = "";
-  } else {
-    alert("Form submitted!!");
   }
 });
