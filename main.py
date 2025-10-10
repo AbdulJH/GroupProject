@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, url_for, redirect
-from database import insert_user, check_user, valid_login
+from database import create_users_table, insert_user, check_user, valid_login
 
 app = Flask(__name__)
 
@@ -29,4 +29,5 @@ def pdf2quizhome():
     return render_template("pdf2quizhome.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    create_users_table()
+    app.run(host="0.0.0.0", debug=True)
