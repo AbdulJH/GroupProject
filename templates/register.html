@@ -4,22 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"/>
   </head>
   <body>
-    <div class="container">
-      <form id="my-form" action="/register" method="POST">
+    {% include 'partials/navbar.html' %}
+
+    <div class="main-content"> 
+      <h1>Create Your Account</h1>
+       <div class="container">
+        <form id="my-form" action="/register" method="POST">
+          
         <label for="username">Username</label>
-        <input
-          type="text"
+        <input type="text"
           placeholder="Enter Username"
           name="username"
           required
-          id="register-username"
-        />
+          id="register-username"/>
+
+        <label for="email">Email</label>
+        <input
+          type="text"
+          placeholder="Enter Email"
+          name="email"
+          required
+          id="register-email"/>
 
         <label for="password">Password</label>
         <input
@@ -27,8 +36,7 @@
           placeholder="Enter Password"
           name="password"
           required
-          id="register-password"
-        />
+          id="register-password"/>
 
         <label for="confirm-password">Confirm Password</label>
         <input
@@ -36,13 +44,16 @@
           placeholder="Confirm Password"
           name="confirm_password"
           required
-          id="confirm-password"
-        />
+          id="confirm-password"/>
 
         <button type="submit">Sign Up</button>
       </form>
     </div>
-  </body>
+  </div>
+  <footer>
+    <p>&copy; 2025 PDF2Quiz. All rights reserved.</p>
+  </footer>
+</body>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </html>
 {% if username_taken %}
@@ -50,4 +61,4 @@
     alert("Username already taken. Please choose another.");
 </script>
 {% endif %}
-</html>
+

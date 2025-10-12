@@ -3,15 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PDF2Quiz</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='home.css') }}"
-    />
+    <title>PDF2Quiz - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
   <body>
-    <h1>PDF2Quiz</h1>
-    <p>welcome message can be here</p>
-    <p>pdf drag and drop after</p>
+    {% include 'partials/navbar.html' %}
+    <div class="main-content">
+      <main class="container">  
+        <h1>Welcome,</h1>
+        <p>
+          This is PDF2Quiz, a tool that converts your PDF documents into interactive quizzes.
+          Upload your PDFs and let our AI generate questions for you!
+        </p>
+        <section class="upload-section">
+      <h2>Upload a PDF to get started</h2>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf_file" accept=".pdf" required />
+        <button type="submit">Upload PDF</button>
+      </form>
+        </section>
+      </main> 
+    </div>
+
+    <footer>
+      <p>&copy; 2025 PDF2Quiz. All rights reserved.</p>
+    </footer>
+
   </body>
 </html>
