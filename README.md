@@ -7,7 +7,9 @@ then go to "http://localhost:5001/register"
 To view users table in Dockerized PostgreSQL database
 make sure dockers is running first with the docker-compose up
 then in another terminal run
-"docker exec -it ics499-db-1 psql -U postgres -d ics499db"
+"docker exec -it groupproject-db-1 psql -U postgres -d ics499db"
 then in that same terminal run "SELECT \* FROM users"
 
-to exit do Ctrl + C in the first terminal that runs the app.
+IF YOUR CONTAINER NAME IS DIFFERENT SWAP "groupproject" with whatever your container is called
+
+to exit do Ctrl + C or press enter in the first terminal that runs the app.
