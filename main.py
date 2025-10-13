@@ -28,6 +28,10 @@ def login():
 def pdf2quizhome():
     return render_template("pdf2quizhome.html")
 
+@app.route("/logout")
+def logout():
+    return redirect(url_for("login"))
+
 if __name__ == "__main__":
     create_users_table()
     app.run(host="0.0.0.0", debug=True)
