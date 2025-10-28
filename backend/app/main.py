@@ -1,37 +1,45 @@
-from flask import Flask, request, render_template, url_for, redirect
-from database import create_users_table, insert_user, check_user, valid_login
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
-app = Flask(__name__)
+# Import routers
+from app.routes import auth
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        if check_user(username):
-            return render_template("register.html", username_taken=True)
-        insert_user(username, password)
-        return redirect(url_for("login"))
-    return render_template("register.html")
+# Import database initialization
+from app.database import create_users_table
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        if not valid_login(username, password):
-            return render_template("login.html", login_failed=True)
-        return redirect(url_for("pdf2quizhome"))
-    return render_template("login.html")
+# Create FastAPI application
+app = FastAPI(
+    title="PDF2Quiz",
+    version="1.0.0",
+    description="Convert PDF documents into quizzes using AI"
+)
 
-@app.route("/pdf2quizhome", methods=["GET"])
-def pdf2quizhome():
-    return render_template("pdf2quizhome.html")
+# Include authentication routes (register, login, logout, etc.)
+app.include_router(auth.router)
 
-@app.route("/logout")
-def logout():
-    return redirect(url_for("login"))
+# Mount static files (CSS, JavaScript, images)
+# Files in frontend/static/ will be served at /static/
+# Small note: name="static" allows url_for('static', ...) to work in templates
+app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
-if __name__ == "__main__":
+
+@app.on_event("startup")
+def startup_event():
+    """
+    Runs once when the application starts up.
+    Creates database tables if they don't exist.
+    """
+    print("Starting up PDF2Quiz application...")
     create_users_table()
-    app.run(host="0.0.0.0", debug=True)
+    print("Database tables created/verified")
+
+
+@app.get("/")
+def read_root():
+    """
+    Root endpoint - redirects visitors to the login page.
+    """
+    return RedirectResponse(url="/login")
+
+
