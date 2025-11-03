@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 
 # Import routers
-from routes import auth, pdf  #  
+from app.routes import auth, pdf  #  
 
 # Import database initialization
 from app.database import create_users_table
@@ -28,12 +28,12 @@ app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 @app.on_event("startup")
 def startup_event():
     """Runs once when the application starts up."""
-    print("🚀 Starting up PDF2Quiz application...")
+    print("Starting up PDF2Quiz application...")
     create_users_table()
-    print("✅ Database tables created/verified")
+    print("Database tables created/verified")
 
 
 @app.get("/")
 def read_root():
-    """Root endpoint - redirects visitors to the login page."""
+    """Root endpoint, redirects visitors to the login page."""
     return RedirectResponse(url="/login")

@@ -31,7 +31,6 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
-      - GEMINI_API_KEY=AIzaSyC_9iSq5xKsw5SnlKiAVCp9xundL3HR-xI
 
     depends_on:
       db:

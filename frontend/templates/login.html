@@ -6,16 +6,16 @@
     <title>Login</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
+      href="{{ url_for('static', path='css/style.css') }}"
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/home.css') }}"
+      href="{{ url_for('static', path='css/home.css') }}"
     />
   </head>
 
   <body>
-    {% include 'partials/partials/navbar.html' %}
+    {% include 'partials/navbar.html' %}
     <div class="main-content">
       <h1>Welcome Back,</h1>
       <div class="container">

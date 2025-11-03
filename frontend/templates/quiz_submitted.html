@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Submitted - PDF2Quiz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Quiz Submitted | PDF2Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
 </head>
 <body>
     {% include 'partials/navbar.html' %}
@@ -20,7 +20,7 @@
                 (Score calculation coming in next iteration)
             </p>
             <a href="/pdf2quizhome" style="display: inline-block; background: #4f8cff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-size: 1.1em;">
-                Upload Another PDF
+                Upload another PDF
             </a>
         </div>
     </div>
@@ -30,33 +30,3 @@
     </footer>
 </body>
 </html>
-```
-
-**Simple confirmation page!**
-- Thanks user
-- Note that scoring is coming later
-- Link to upload another PDF
-
----
-
-## **Understanding the Template Flow**
-
-**User Journey:**
-
-1. **Upload PDF** → `pdf2quizhome.html`
-2. **Backend generates quiz** → Stores in `CURRENT_QUIZ`
-3. **Shows quiz** → `quiz_take.html` (this template)
-4. **User answers and clicks Submit**
-5. **Form posts to `/quiz/submit`**
-6. **Shows confirmation** → `quiz_submitted.html`
-
----
-
-## **What Gets Submitted?**
-
-When user fills out quiz and clicks Submit, the form sends:
-```
-POST /quiz/submit
-Content-Type: application/x-www-form-urlencoded
-
-question_0=true&question_1=false&question_2=true&question_3=false&question_4=true
