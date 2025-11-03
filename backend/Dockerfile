@@ -2,10 +2,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Copy requirements from backend folder
+COPY backend/requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-COPY app/ ./app/
+# Copy app code from backend folder
+COPY backend/app/ ./app/
+
+# Copy frontend folder (needed for templates and static files)
+COPY frontend/ ./frontend/
 
 EXPOSE 8000
 
