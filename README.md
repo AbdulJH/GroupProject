@@ -5,7 +5,8 @@ To run the app go to the terminal and write "docker-compose up"
 then go to "http://localhost:5001/register"
 
 To view users table in Dockerized PostgreSQL database
-make sure dockers is running first with the docker-compose up
+make sure you build it first with docker-compose up --build that will launch the app running with docker
+when running after that you can just use docker-compose up
 then in another terminal run
 "docker exec -it groupproject-db-1 psql -U postgres -d ics499db"
 then in that same terminal run "SELECT \* FROM users"
