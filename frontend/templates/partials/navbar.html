@@ -1,10 +1,25 @@
 <header class="toolbar">
-  <div class="logo">PDF2Quiz</div>
+  <div class="logo">
+    <img src="{{ request.url_for('static', path='img/logo.png') }}" alt="Logo" class="logo-img">
+    <div class="logo-text">  
+      <span class="brand-name"> PDF2Quiz</span>
+      <small class="brand-substitle">Instant Quiz Builder</small>
+      </div>
+  </div>
+
+   <div class="toolbar-deco">
+  <span class="pdf-icon">📄</span>
+  <span class="pdf-icon">📄</span>
+  <span class="pdf-icon">📄</span>
+  <span class="pdf-icon">📄</span>
+  
+</div>
+
+
   <nav class="nav-links">
     <a href="{{ url_for('get_home') }}">Home</a>
     <a href="{{ url_for('get_register_page') }}">Register</a>
     <a href="{{ url_for('get_login_page') }}">Login</a>
     <a href="{{ url_for('logout') }}">Logout</a>
-
   </nav>
 </header>
