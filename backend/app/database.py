@@ -61,3 +61,10 @@ def valid_login(username, password):
     conn.close()
     return user is not None
 
+def get_db():
+    conn = get_connection()
+    try:
+        yield conn
+    finally:
+        conn.close()
+

@@ -1,4 +1,3 @@
-
 services:
   db:
     image: postgres:15
@@ -10,27 +9,32 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d ics499db"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 10s
+
   web:
-    build: .
-    command: python main.py
+    build: 
+      context: .
+      dockerfile: backend/Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      - .:/app
+      - ./backend/app:/app/app
+      - ./frontend:/app/frontend
     ports:
-      - "5001:5000"
+      - "5001:8000"
     environment:
       - DB_NAME=ics499db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
+
     depends_on:
-       db:
+      db:
         condition: service_healthy
+
 volumes:
   pgdata:

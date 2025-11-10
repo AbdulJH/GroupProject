@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Submitted | PDF2Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+    
+    <div class="main-content">
+        <div class="container" style="text-align: center;">
+            <h1> Quiz Submitted!</h1>
+            <p style="font-size: 1.2em; margin: 30px 0;">
+                Thank you for completing the quiz.
+            </p>
+            <p style="color: #666; margin-bottom: 40px;">
+                (Score calculation coming in next iteration)
+            </p>
+            <a href="/pdf2quizhome" style="display: inline-block; background: #4f8cff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-size: 1.1em;">
+                Upload another PDF
+            </a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 PDF2Quiz. All rights reserved.</p>
+    </footer>
+</body>
+</html>
