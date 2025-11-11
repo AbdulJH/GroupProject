@@ -21,6 +21,7 @@ def create_users_table():
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             username VARCHAR(150) UNIQUE NOT NULL,
+            email VARCHAR(255) NOT NULL,
             password VARCHAR(150) NOT NULL
         );
     """)
@@ -28,12 +29,12 @@ def create_users_table():
     cur.close()
     conn.close()
 
-def insert_user(username, password):
+def insert_user(username, email, password):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO users (username, password) VALUES (%s, %s)",
-        (username, password)
+        "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+        (username, email, password)
     )
     conn.commit()
     cur.close()

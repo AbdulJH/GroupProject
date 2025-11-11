@@ -47,8 +47,7 @@ def post_register(
         )
     
     # Create new user
-    # Note: email not saved because database table doesn't have email column yet
-    insert_user(username, password)
+    insert_user(username, email, password)
     
     # Redirect to login page after successful registration
     return RedirectResponse(url="/login", status_code=303)
