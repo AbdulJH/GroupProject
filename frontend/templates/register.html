@@ -65,6 +65,12 @@
 </body>
   <script src="{{ url_for('static', path='script.js') }}"></script>
 </html>
+{% if invalid_email %}
+<script>
+    alert("Invalid email format. Please enter a valid email.");
+</script>
+{% endif %}
+
 {% if username_taken %}
 <script>
     alert("Username already taken. Please choose another.");

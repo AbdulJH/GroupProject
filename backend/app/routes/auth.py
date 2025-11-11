@@ -39,6 +39,13 @@ def post_register(
     - email: User's email (collected but not saved to DB yet)
     - confirm_password: Password confirmation (validated client side)
     """
+
+    if '@' not in email or '.' not in email:
+        return templates.TemplateResponse(
+            "register.html", 
+            {"request": request, "invalid_email": True}
+        )
+    
     # Check if username already exists
     if check_user(username):
         return templates.TemplateResponse(
