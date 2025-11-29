@@ -11,6 +11,9 @@ router = APIRouter()
 # Setup Jinja2 templates
 templates = Jinja2Templates(directory="frontend/templates")
 
+# Track currently logged-in user
+CURRENT_USER = None  # Stores username of logged-in user
+
 
 # ===== REGISTER ROUTES =====
 
@@ -90,8 +93,7 @@ def post_login(
             {"request": request, "login_failed": True}
         )
     
-    # Successful login so redirect to home page
-    # TODO: Add session management later for logout 
+    CURRENT_USER = username
     return RedirectResponse(url="/pdf2quizhome", status_code=303)
 
 
@@ -115,4 +117,13 @@ def logout():
     Currently just redirects because no session clearing yet.
     TODO: Add session management.
     """
+    global CURRENT_USER  # Add this line
+    CURRENT_USER = None
     return RedirectResponse(url="/login", status_code=303)
+
+def get_current_user():
+    """
+    Returns the currently logged-in username.
+    Used by other routes to know who's logged in.
+    """
+    return CURRENT_USER

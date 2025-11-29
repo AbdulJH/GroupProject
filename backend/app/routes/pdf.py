@@ -4,6 +4,9 @@ import google.generativeai as genai
 from fastapi import APIRouter, Request, UploadFile, File, Form
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+from app.database import save_quiz_result
+from app.routes.auth import get_current_user
+from app.database import get_quiz_history
 
 # Setup
 router = APIRouter()
@@ -116,15 +119,88 @@ def show_quiz(request: Request):
 
 
 @router.post("/quiz/submit")
-def submit_quiz(request: Request):
-    """Handle quiz submission (just acknowledge for now)."""
+async def submit_quiz(request: Request):
+    """
+    Handle quiz submission, calculate score, save to database.
+    """
     global CURRENT_QUIZ
     
-    # Clear quiz
+    # Check if quiz exists
+    if CURRENT_QUIZ is None:
+        return RedirectResponse(url="/pdf2quizhome", status_code=303)
+    
+    # Get current logged-in user
+    username = get_current_user()
+    if not username:
+        # User not logged in, redirect to login
+        return RedirectResponse(url="/login", status_code=303)
+    
+    # Get form data (user's answers)
+    form_data = await request.form()
+    
+    # Calculate score
+    score = 0
+    total_questions = len(CURRENT_QUIZ)
+    
+    for i in range(total_questions):
+        # Get user's answer for this question
+        user_answer_str = form_data.get(f"question_{i}")
+        
+        if user_answer_str is None:
+            continue  # Question not answered (shouldn't happen with required fields)
+        
+        # Convert string to boolean
+        user_answer = (user_answer_str.lower() == "true")
+        
+        # Get correct answer
+        correct_answer = CURRENT_QUIZ[i]["answer"]
+        
+        # Check if correct
+        if user_answer == correct_answer:
+            score += 1
+    
+    # Calculate percentage
+    percentage = (score / total_questions * 100) if total_questions > 0 else 0
+    
+    # Save to database
+    save_quiz_result(username, score, total_questions)
+    
+    # Clear the current quiz
     CURRENT_QUIZ = None
     
-    # Show confirmation
+    # Show results page with score
     return templates.TemplateResponse(
         "quiz_submitted.html",
-        {"request": request}
+        {
+            "request": request,
+            "score": score,
+            "total": total_questions,
+            "percentage": round(percentage, 1)
+        }
+    )
+
+
+@router.get("/quiz/history")
+def quiz_history(request: Request):
+    """
+    Show user's quiz history and average score.
+    """
+    # Get current logged-in user
+    username = get_current_user()
+    if not username:
+        # Not logged in, redirect to login
+        return RedirectResponse(url="/login", status_code=303)
+    
+    # Get quiz history from database
+    history = get_quiz_history(username)
+    
+    # Render history page
+    return templates.TemplateResponse(
+        "quiz_history.html",
+        {
+            "request": request,
+            "quizzes": history['quizzes'],
+            "average": history['average'],
+            "total_quizzes": history['total_quizzes']
+        }
     )

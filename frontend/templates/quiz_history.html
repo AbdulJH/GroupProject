@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz History | PDF2Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+    
+    <div class="main-content">
+        <div class="container">
+            <h1>Your Quiz History</h1>
+            
+            {% if total_quizzes == 0 %}
+                <p style="text-align: center; margin: 40px 0;">
+                    You haven't taken any quizzes yet.
+                </p>
+                <a href="/pdf2quizhome" style="display: block; text-align: center; color: #4f8cff;">
+                    Take your first quiz!
+                </a>
+            {% else %}
+                <div style="margin: 30px 0; padding: 20px; background: #f0f0f0; border-radius: 10px; text-align: center;">
+                    <h2>Average Score</h2>
+                    <p style="font-size: 2.5em; margin: 10px 0; font-weight: bold;">
+                        {{ average }}%
+                    </p>
+                    <p style="color: #666;">
+                        Based on {{ total_quizzes }} quiz{{ 'zes' if total_quizzes != 1 else '' }}
+                    </p>
+                </div>
+                
+                <h2>Past Quizzes</h2>
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <thead>
+                        <tr style="background: #e0e0e0;">
+                            <th style="padding: 10px; text-align: left;">Date</th>
+                            <th style="padding: 10px; text-align: center;">Score</th>
+                            <th style="padding: 10px; text-align: center;">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in quizzes %}
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 10px;">{{ quiz.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td style="padding: 10px; text-align: center;">{{ quiz.score }}/{{ quiz.total }}</td>
+                            <td style="padding: 10px; text-align: center; font-weight: bold;">{{ quiz.percentage }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <a href="/pdf2quizhome" style="display: inline-block; background: #4f8cff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; margin-top: 20px;">
+                    Take Another Quiz
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 PDF2Quiz. All rights reserved.</p>
+    </footer>
+</body>
+</html>
