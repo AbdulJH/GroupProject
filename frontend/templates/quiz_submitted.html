@@ -24,6 +24,25 @@
                 </p>
             </div>
             
+            <h2 style="margin-top: 40px; text-align: left;">Review Your Answers</h2>
+            
+            {% for result in results %}
+            <div style="margin: 20px 0; padding: 20px; background: {% if result.is_correct %}#d4edda{% else %}#f8d7da{% endif %}; border-radius: 10px; text-align: left;">
+                <p style="font-weight: bold; font-size: 1.1em; margin-bottom: 10px;">
+                    {{ loop.index }}. {{ result.question }}
+                </p>
+                <p style="margin: 5px 0;">
+                    <strong>Your answer:</strong> 
+                    {{ "True" if result.user_answer else "False" }}
+                    {% if result.is_correct %}✅{% else %}❌{% endif %}
+                </p>
+                <p style="margin: 5px 0;">
+                    <strong>Correct answer:</strong> 
+                    {{ "True" if result.correct_answer else "False" }}
+                </p>
+            </div>
+            {% endfor %}
+            
             <p style="margin: 20px 0;">
                 <a href="/quiz/history" style="color: #4f8cff; text-decoration: underline;">
                     View Quiz History

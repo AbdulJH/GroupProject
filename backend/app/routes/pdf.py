@@ -138,10 +138,12 @@ async def submit_quiz(request: Request):
     
     # Get form data (user's answers)
     form_data = await request.form()
+
     
     # Calculate score
     score = 0
     total_questions = len(CURRENT_QUIZ)
+    results = []
     
     for i in range(total_questions):
         # Get user's answer for this question
@@ -155,10 +157,21 @@ async def submit_quiz(request: Request):
         
         # Get correct answer
         correct_answer = CURRENT_QUIZ[i]["answer"]
-        
-        # Check if correct
-        if user_answer == correct_answer:
+
+        is_correct = (user_answer == correct_answer)
+    
+        if is_correct:
             score += 1
+    
+        # Store result for this question
+        results.append({
+            "question": CURRENT_QUIZ[i]["question"],
+            "user_answer": user_answer,
+            "correct_answer": correct_answer,
+            "is_correct": is_correct
+        })
+        
+        
     
     # Calculate percentage
     percentage = (score / total_questions * 100) if total_questions > 0 else 0
@@ -177,7 +190,8 @@ async def submit_quiz(request: Request):
             "score": score,
             "total": total_questions,
             "percentage": round(percentage, 1),
-            "current_user": get_current_user()
+            "current_user": get_current_user(),
+            "results": results
         }
     )
 
