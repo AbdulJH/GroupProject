@@ -79,7 +79,7 @@ async def upload_pdf(request: Request, pdf_file: UploadFile = File(...)):
         print(f"Error extracting PDF text: {e}")
         return templates.TemplateResponse(
             "pdf2quizhome.html",
-            {"request": request, "error": "Failed to read PDF. Please try another file."}
+            {"request": request, "error": "Failed to read PDF. Please try another file.", "current_user": get_current_user()}
         )
     
     # Generate quiz questions
@@ -89,7 +89,7 @@ async def upload_pdf(request: Request, pdf_file: UploadFile = File(...)):
         print(f"Error generating quiz: {e}")
         return templates.TemplateResponse(
             "pdf2quizhome.html",
-            {"request": request, "error": "Failed to generate quiz. Please try again."}
+            {"request": request, "error": "Failed to generate quiz. Please try again.", "current_user": get_current_user()}
         )
     
     # Store quiz
@@ -113,7 +113,8 @@ def show_quiz(request: Request):
         "quiz_take.html",
         {
             "request": request,
-            "questions": CURRENT_QUIZ
+            "questions": CURRENT_QUIZ,
+            "current_user": get_current_user()
         }
     )
 
@@ -175,7 +176,8 @@ async def submit_quiz(request: Request):
             "request": request,
             "score": score,
             "total": total_questions,
-            "percentage": round(percentage, 1)
+            "percentage": round(percentage, 1),
+            "current_user": get_current_user()
         }
     )
 
@@ -201,6 +203,7 @@ def quiz_history(request: Request):
             "request": request,
             "quizzes": history['quizzes'],
             "average": history['average'],
-            "total_quizzes": history['total_quizzes']
+            "total_quizzes": history['total_quizzes'],
+            "current_user": get_current_user()
         }
     )

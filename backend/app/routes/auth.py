@@ -22,7 +22,10 @@ def get_register_page(request: Request):
     """
     GET /register - Shows the registration form.
     """
-    return templates.TemplateResponse("register.html", {"request": request})
+    return templates.TemplateResponse(
+        "register.html", 
+        {"request": request, "current_user": CURRENT_USER}
+    )
 
 
 @router.post("/register")
@@ -46,14 +49,14 @@ def post_register(
     if '@' not in email or '.' not in email:
         return templates.TemplateResponse(
             "register.html", 
-            {"request": request, "invalid_email": True}
+            {"request": request, "invalid_email": True, "current_user": CURRENT_USER}
         )
     
     # Check if username already exists
     if check_user(username):
         return templates.TemplateResponse(
             "register.html", 
-            {"request": request, "username_taken": True}
+            {"request": request, "username_taken": True, "current_user": CURRENT_USER}
         )
     
     # Create new user
@@ -70,7 +73,10 @@ def get_login_page(request: Request):
     """
     GET /login - Shows the login form.
     """
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(
+        "login.html", 
+        {"request": request, "current_user": CURRENT_USER}
+    )
 
 
 @router.post("/login")
@@ -86,13 +92,16 @@ def post_login(
     - username: User's username
     - password: User's password
     """
+    global CURRENT_USER
+    
     # Validate credentials
     if not valid_login(username, password):
         return templates.TemplateResponse(
             "login.html",
-            {"request": request, "login_failed": True}
+            {"request": request, "login_failed": True, "current_user": CURRENT_USER}
         )
     
+    # Store logged-in user
     CURRENT_USER = username
     return RedirectResponse(url="/pdf2quizhome", status_code=303)
 
@@ -105,7 +114,10 @@ def get_home(request: Request):
     GET /pdf2quizhome - Shows the main application page.
     This is where users can upload PDFs after logging in.
     """
-    return templates.TemplateResponse("pdf2quizhome.html", {"request": request})
+    return templates.TemplateResponse(
+        "pdf2quizhome.html", 
+        {"request": request, "current_user": CURRENT_USER}
+    )
 
 
 # ===== LOGOUT =====
@@ -117,9 +129,10 @@ def logout():
     Currently just redirects because no session clearing yet.
     TODO: Add session management.
     """
-    global CURRENT_USER  # Add this line
+    global CURRENT_USER
     CURRENT_USER = None
     return RedirectResponse(url="/login", status_code=303)
+
 
 def get_current_user():
     """
